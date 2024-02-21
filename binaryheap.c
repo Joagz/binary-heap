@@ -31,7 +31,6 @@ void swim(BinaryHeap * heap){
 void sink(BinaryHeap * heap, int i){
 
     int * arr = heap->keys;
-    exch(arr, i, heap->length);
 
     while(i < heap->length){
         if(i == 0 && arr[i] < arr[1]) {exch(arr, i, 1); i = 1;}
@@ -57,16 +56,32 @@ void insert(int k, BinaryHeap * binaryHeap){
     swim(binaryHeap);
 }
 
-void deleteMax(BinaryHeap * heap){
+int deleteMax(BinaryHeap * heap){
 
+    int copy = heap->keys[0];
     exch(heap->keys, 0, heap->length);
+
+    printf("deleting %d ...\n", heap->keys[heap->length]);
 
     heap->keys[heap->length] = 0x00;
     heap->length--;
 
     sink(heap, 0);
 
+    return copy;
 }
+
+int * heapsort(BinaryHeap * heap){
+
+    int * arr = (int *) calloc(heap->length, sizeof(int));
+
+    for(int i = heap->length-1; i >= 0; i--){
+        arr[i] = deleteMax(heap);
+    }
+
+    return arr;
+}
+
 
 void printbh(BinaryHeap * heap){
 
@@ -100,10 +115,16 @@ int main(){
 
     printbh(heap);
 
-    deleteMax(heap);
-printf("\n");
-    printbh(heap);
+    int * arr = heapsort(heap);
 
+
+
+    for(int i = 0; i < size; i++){
+        printf("[%d]\v", arr[i]);
+    }
+
+    printf("\n");
+    free(arr);
     free(heap);
     return 0;
 }

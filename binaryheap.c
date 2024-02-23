@@ -39,8 +39,6 @@ void sink(BinaryHeap * heap, int i){
         else if(arr[i] < arr[i * 2]) {exch(arr, i, i * 2); i = i*2;}
         else if(arr[i] < arr[i * 2 + 1]) {exch(arr, i, i * 2 + 1); i = i*2+1;}
         else return;
-
-
     }
 
 }
@@ -60,8 +58,6 @@ int deleteMax(BinaryHeap * heap){
 
     int copy = heap->keys[0];
     exch(heap->keys, 0, heap->length);
-
-    printf("deleting %d ...\n", heap->keys[heap->length]);
 
     heap->keys[heap->length] = 0x00;
     heap->length--;
@@ -85,14 +81,19 @@ int * heapsort(BinaryHeap * heap){
 
 void printbh(BinaryHeap * heap){
 
-    for(int i = 0; i < heap->length; i++){
-        printf("heap->keys[%d] = %d\n", i+1, heap->keys[i]);
+    for(int i = 1; i < 1+heap->length; i=2*i){
+
+        char * pad = (char*) malloc(sizeof(char) * i*2);
+
+    for (int j = i; j < 2*i && j < 1+heap->length; j++) {
+        printf("\t\t%d", heap->keys[j-1]);
     }
 
+        printf("\n");
+    }
+
+
 }
-
-
-
 
 int main(){
     int size = 10;
@@ -117,13 +118,6 @@ int main(){
 
     int * arr = heapsort(heap);
 
-
-
-    for(int i = 0; i < size; i++){
-        printf("[%d]\v", arr[i]);
-    }
-
-    printf("\n");
     free(arr);
     free(heap);
     return 0;
